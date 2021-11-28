@@ -12,7 +12,7 @@ public class TriangleData {
     private double lowestDataPoint;
     private double highestDataPoint;
 
-    public TriangleData(double lowestDataPoint, double highestDataPoint){
+    public TriangleData(double lowestDataPoint, double highestDataPoint) {
         h = new double[5];
         sh = new int[5];
         xh = new double[5];
