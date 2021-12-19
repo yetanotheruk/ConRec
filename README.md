@@ -12,12 +12,14 @@ As per the work of Paul Bourke, this mode generates many little lines for each c
 ```java
 Set<ContourLine> contourlines =  ContourGenerator.generateClassic(data, xValues, yValues, contourLevels);
 ```
+Returns `Set<ContourLine>` each of which describe the start and end points of the line and the value of the contour it was made for.
 
 ### Polygon
 This mode attempts to join the little lines into large polygon shapes. This drastically reduces the amount of data and can reduce the burden on further business processes or User Interfaces.
 ```java
 Set<ContourPolygon> contourlines =  ContourGenerator.generatePolygons(data, xValues, yValues, contourLevels);
 ```
+Returns `Set<ContourPolygon>` each of which describe the points that make it and the value of the contour it was made for.
 
 Input Parameters;
 1. `double[][] data` - A two-dimensional array containing the data to be contoured.
@@ -25,7 +27,7 @@ Input Parameters;
 3. `double[] yValues` - A array containing all the vertical coordinates of each sample point.
 4. `double[] contourLevels` - A array of each contour value to evaluate and generate lines for.
 
-Returns `Set<ContourLine>` each of which describe the start and end points of the line and the value of the coutour it was made for.
+
 
 ### Maven
 
