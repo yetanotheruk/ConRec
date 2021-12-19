@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contour polygon contains the coordinates to make it and the Contour Level it describes.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -7,6 +7,9 @@ import java.util.Set;
 
 import static uk.yetanother.conrec.domain.ContourLineType.*;
 
+/**
+ * ContourGenerator is the entry point for the ConRec Algorithm and provides a number of different ways to run it.
+ */
 public class ContourGenerator {
 
     private static final ContourLineType[][][] CASTAB =
@@ -52,6 +55,16 @@ public class ContourGenerator {
         return foundLines;
     }
 
+    /**
+     * Given data points for both the X and Y axis as well as the surface this function will attempt to create polygons for
+     * each contour level requested.
+     *
+     * @param data          - A two-dimensional array containing the data to be contoured.
+     * @param xValues       - A array containing all the horizontal coordinates of each sample point.
+     * @param yValues       - A array containing all the vertical coordinates of each sample point.
+     * @param contourLevels - A array of each contour value to evaluate and generate lines for.
+     * @return ContourPolygon's each of which describe the points that make it and the value of the contour it was made for.
+     */
     public static Set<ContourPolygon> generatePolygons(double[][] data, double[] xValues, double[] yValues, double[] contourLevels) {
         return ContourTransformer.linesToPolygons(generateClassic(data, xValues, yValues, contourLevels));
     }

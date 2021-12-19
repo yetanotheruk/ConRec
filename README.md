@@ -5,14 +5,20 @@ This is a Java Implementation based on the work by Paul Bourke as published on h
 
 ## Getting Started
 
-ConRec is provided as a pre-built maven library that requires no additional libraries to work.
+ConRec is provided as a pre-built maven library that requires no additional libraries to work. This implementation of ConRec has the following modes.
 
+### Classic
+As per the work of Paul Bourke, this mode generates many little lines for each contour level.
 ```java
-...
-        Set<ContourLine> contourlines =  ContourGenerator.generate(
-                data, xValues, yValues, contourLevels);
-...
+Set<ContourLine> contourlines =  ContourGenerator.generateClassic(data, xValues, yValues, contourLevels);
 ```
+
+### Polygon
+This mode attempts to join the little lines into large polygon shapes. This drastically reduces the amount of data and can reduce the burden on further business processes or User Interfaces.
+```java
+Set<ContourPolygon> contourlines =  ContourGenerator.generatePolygons(data, xValues, yValues, contourLevels);
+```
+
 Input Parameters;
 1. `double[][] data` - A two-dimensional array containing the data to be contoured.
 2. `double[] xValues` - A array containing all the horizontal coordinates of each sample point.
@@ -29,7 +35,7 @@ To start using ConRec simply add the following dependency to your project POM.
 <dependency>
 	<groupId>uk.yetanother</groupId>
 	<artifactId>ConRec</artifactId>
-	<version>1.0.0</version>
+	<version>2.0.0</version>
 </dependency>
 ```
 

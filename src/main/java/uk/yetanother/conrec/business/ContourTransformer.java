@@ -6,9 +6,25 @@ import uk.yetanother.conrec.domain.Coordinate;
 
 import java.util.*;
 
+/**
+ * ContourTransformer is responsible for attempting to convert ContourLines from the algorithm into ContourPolygons
+ * that are easier to work with and drawn in some cases.
+ */
 public class ContourTransformer {
 
-    @SuppressWarnings("squid:S2864") // KeySet iteration required for polygon building at a contour level at a time.
+    private ContourTransformer() {
+        // Removing public constructor.
+    }
+
+    /**
+     * Lines to polygons attempts to convert ContourLines for each level to as many complete ContourPolygons as possible.
+     *
+     * @param lines the ContourLines to convert
+     * @return ContourPolygon's each of which describe the points that make it and the value of the contour it was made for.
+     */
+    @SuppressWarnings({"squid:S2864", "squid:S3776"})
+    // squid:S2864 - KeySet iteration required for polygon building at a contour level at a time.
+    // squid:S3776 - Breaking up the method more will reduce the overall readability.
     public static Set<ContourPolygon> linesToPolygons(Set<ContourLine> lines) {
         Set<ContourPolygon> polygons = new HashSet<>();
         Map<Double, Set<ContourLine>> sortedLines = separateContourLineValues(lines);
@@ -67,6 +83,8 @@ public class ContourTransformer {
         }
     }
 
+    @SuppressWarnings("squid:S2589")
+    // For readability and completeness the boolean condition that is not required will be kept.
     private static ContourPolygon joinPolygons(ContourLine linkLine, ContourPolygon startMatchPolygon, ContourPolygon endMatchPolygon) {
         ContourPolygon newPolygon = new ContourPolygon();
         newPolygon.setValue(startMatchPolygon.getValue());
