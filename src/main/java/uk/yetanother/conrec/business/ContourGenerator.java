@@ -1,15 +1,15 @@
 package uk.yetanother.conrec.business;
 
-import uk.yetanother.conrec.domain.ContourLine;
-import uk.yetanother.conrec.domain.ContourLineType;
-import uk.yetanother.conrec.domain.Coordinate;
-import uk.yetanother.conrec.domain.TriangleData;
+import uk.yetanother.conrec.domain.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static uk.yetanother.conrec.domain.ContourLineType.*;
 
+/**
+ * ContourGenerator is the entry point for the ConRec Algorithm and provides a number of different ways to run it.
+ */
 public class ContourGenerator {
 
     private static final ContourLineType[][][] CASTAB =
@@ -30,13 +30,13 @@ public class ContourGenerator {
      * Given data points for both the X and Y axis as well as the surface this function will attempt to draw lines for
      * each contour level requested.
      *
-     * @param data - A two-dimensional array containing the data to be contoured.
-     * @param xValues - A array containing all the horizontal coordinates of each sample point.
-     * @param yValues - A array containing all the vertical coordinates of each sample point.
+     * @param data          - A two-dimensional array containing the data to be contoured.
+     * @param xValues       - A array containing all the horizontal coordinates of each sample point.
+     * @param yValues       - A array containing all the vertical coordinates of each sample point.
      * @param contourLevels - A array of each contour value to evaluate and generate lines for.
      * @return ContourLine's each of which describe the start and end points of the line and the value of the contour it was made for.
      */
-    public static Set<ContourLine> generate(double[][] data, double[] xValues, double[] yValues, double[] contourLevels) {
+    public static Set<ContourLine> generateClassic(double[][] data, double[] xValues, double[] yValues, double[] contourLevels) {
         Set<ContourLine> foundLines = new HashSet<>();
 
         for (int y = (yValues.length - 2); y >= 0; y--) {
@@ -55,13 +55,27 @@ public class ContourGenerator {
         return foundLines;
     }
 
+    /**
+     * Given data points for both the X and Y axis as well as the surface this function will attempt to create polygons for
+     * each contour level requested.
+     *
+     * @param data          - A two-dimensional array containing the data to be contoured.
+     * @param xValues       - A array containing all the horizontal coordinates of each sample point.
+     * @param yValues       - A array containing all the vertical coordinates of each sample point.
+     * @param contourLevels - A array of each contour value to evaluate and generate lines for.
+     * @return ContourPolygon's each of which describe the points that make it and the value of the contour it was made for.
+     */
+    public static Set<ContourPolygon> generatePolygons(double[][] data, double[] xValues, double[] yValues, double[] contourLevels) {
+        return ContourTransformer.linesToPolygons(generateClassic(data, xValues, yValues, contourLevels));
+    }
+
     private static Set<ContourLine> processContourLevel(double[][] data, double[] xValues, double[] yValues, int y, int x, TriangleData triangleData, double contourLevel) {
         Set<ContourLine> contourLines = new HashSet<>();
         if (contourLevel >= triangleData.getLowestDataPoint() && contourLevel <= triangleData.getHighestDataPoint()) {
             buildTriangleData(data, xValues, yValues, y, x, triangleData, contourLevel);
             processTrianglesAndRecordLine(contourLines, triangleData, contourLevel);
         }
-        return  contourLines;
+        return contourLines;
     }
 
     private static void buildTriangleData(double[][] data, double[] xValues, double[] yValues, int y, int x, TriangleData triangleData, double contourLevel) {
